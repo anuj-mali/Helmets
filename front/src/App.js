@@ -13,6 +13,7 @@ import Register from './Pages/Register/Register';
 import Shop from './Pages/Shop/Shop';
 import Contact from './Pages/Contact/Contact';
 import About from './Pages/About/About';
+import Footer from './Components/Footer/Footer';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/Contact" element={<Contact/>}/>
         <Route path="/About" element={<About/>}/>
       </Routes>
+      <Footer/>
     </Router>
     </>
     );
