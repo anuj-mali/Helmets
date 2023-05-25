@@ -8,7 +8,8 @@ SECRET_KEY = 'django-insecure-_m#$oi@y$9!i$@$c#!unuhc&cqqwp+%s^wk4sr4fobr0sqbb30
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '192.168.120.232']
+# ALLOWED_HOSTS = ['0.0.0.0', '192.168.120.232']
+ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = [
@@ -18,12 +19,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'khalti',
     'store'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -96,3 +99,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ANCHOR: Khalti Settings
 KHALTI_SECRET_KEY = "test_secret_key_71c5d8c92ab942c99a04c6e56d5827b3"
 KHALTI_VERIFY_URL = "https://khalti.com/api/v2/payment/verify/"
+
+# ANCHOR: CORS Settings
+CORS_ORIGIN_ALLOW_ALL = True
