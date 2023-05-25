@@ -14,12 +14,23 @@ import Shop from './Pages/Shop/Shop';
 import Contact from './Pages/Contact/Contact';
 import About from './Pages/About/About';
 import Footer from './Components/Footer/Footer';
+import Product from './Pages/Product/Product';
+import {GlobalStyle} from './GlobalStyle';
+import { ThemeProvider } from 'styled-components';
 
 
 function App() {
+const theme={
+  colors:{
+    bg:"#fff"
+  },
+}
+
   return (
     <>
-    <Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+      <GlobalStyle/>
       <Navbar/>
       <Routes>
         <Route path="/" element={<Home/>}/>
@@ -28,9 +39,12 @@ function App() {
         <Route path="/Shop" element={<Shop/>}/>
         <Route path="/Contact" element={<Contact/>}/>
         <Route path="/About" element={<About/>}/>
+        <Route path="/Product/:id" element={<Product/>}/>
       </Routes>
       <Footer/>
     </Router>
+    </ThemeProvider>
+
     </>
     );
 }

@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import image from '../../Assets/login.jpg';
 
+
 const Login = () => {
+  const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
   return (
     <>
     <section class="vh-100">
@@ -16,14 +20,12 @@ const Login = () => {
           <form >
             <h3 class="fw-normal mb-3 mt-5 pb-3">Log in</h3>
 
-            <div class="form-outline mb-4">
-              <input type="email" id="email" class="form-control form-control-lg" />
-              <label class="form-label" for="email">Email address</label>
+            <div className="form-group  mb-4">
+            <input htmlFor="text" id="name" name="name"  className="form-control" placeholder="Email" />
             </div>
 
-            <div class="form-outline mb-4">
-              <input type="password" id="password" class="form-control form-control-lg" />
-              <label class="form-label" for="password">Password</label>
+            <div className="form-group  mb-4">
+            <input htmlFor="password" id="name" name="name" className="form-control" placeholder="Password" type='password'/>
             </div>
 
             <div class="pt-1 mb-4">
@@ -33,7 +35,7 @@ const Login = () => {
             <p>Don't have an account? <Link to={"/register"} class="link-info">Register here</Link></p>
 
           </form>
-
+          
         </div>
 
       </div>

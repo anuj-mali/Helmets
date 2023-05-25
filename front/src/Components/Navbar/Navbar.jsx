@@ -1,10 +1,13 @@
 import React from 'react';
 import Logo from '../../Assets/White_logo.png';
-import Loggedin from './Navigation Toggles/Loggedin';
+// import Loggedin from './Navigation Toggles/Loggedin';
 import { Link } from 'react-router-dom';
+import { FiShoppingCart } from "react-icons/fi";
 
 
 const Navbar = () => {
+
+
   return (
     <>
  
@@ -54,9 +57,10 @@ const Navbar = () => {
         <i class="fa-solid fa-magnifying-glass"></i>
       </a>
 
-        <a class="text-reset me-4">
-        <i class="fas fa-shopping-cart"></i>
-      </a>
+        <Link to={"/shop"} className="text-reset me-4 cart-trolley--link navbar-link">
+        <FiShoppingCart className='cart-trolley'/>
+        <span className='cart-total--item'>0</span>
+      </Link>
       <Link to={"/login"} class="text-reset me-4">
       
           <i class="fa-regular fa-user"></i>

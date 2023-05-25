@@ -15,28 +15,21 @@ const Register = () => {
 
           <form >
             <h3 class="fw-normal mb-3 mt-5 pb-3">Register</h3>
-            <div class="d-flex">
-            <div class="form-outline mb-4">
-              <input type="text" id="fname" class="form-control form-control-lg" />
-              <label class="form-label" for="fname">First Name</label>
+            
+            <div className="form-group  mb-4">
+            <input htmlFor="text" id="name" name="name"  className="form-control" placeholder="Name" />
+          
+            
             </div>
-            <div class="form-outline mb-4">
-              <input type="text" id="lname" class="form-control form-control-lg" />
-              <label class="form-label" for="lname">Last Name</label>
+            <div className="form-group  mb-4">
+            <input htmlFor="text" id="name" name="email"  className="form-control" placeholder="Email" />
             </div>
+            <div class="d-flex justify-content-between">
+            <div className="form-group  mb-4">
+            <input htmlFor="password" id="name" name="password" className="form-control" placeholder="Password" type='password'/>
             </div>
-            <div class="form-outline mb-4">
-              <input type="email" id="email" class="form-control form-control-lg" />
-              <label class="form-label" for="email">Email address</label>
-            </div>
-            <div class="d-flex">
-            <div class="form-outline mb-4">
-              <input type="password" id="password" class="form-control form-control-lg" />
-              <label class="form-label" for="password">Password</label>
-            </div>
-            <div class="form-outline mb-4">
-              <input type="password" id="cpassword" class="form-control form-control-lg" />
-              <label class="form-label" for="cpassword">Confirm Password</label>
+            <div className="form-group  mb-4">
+            <input htmlFor="password" id="name" name="cpassword" className="form-control" placeholder="Confirm Password" type='password'/>
             </div>
             </div>
 
