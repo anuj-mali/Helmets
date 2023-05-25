@@ -9,11 +9,15 @@ class User(models.Model):
 
 
 class Customer(User):
-    pass
+    def __str__(self) -> str:
+        return self.username
 
 
 class Admin(User):
     created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.username
 
 
 class Brand(models.Model):
@@ -27,7 +31,7 @@ class Brand(models.Model):
 class Product(models.Model):
     product_name = models.CharField(max_length=255)
     product_description = models.TextField()
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     updated_at = models.DateField(auto_now=True)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     is_featured = models.BooleanField(default=False)

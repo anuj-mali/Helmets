@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from .models import Customer, Admin, Product, Brand
+from .models import Customer, Admin, Product, Brand, User
 
 
-class CustomerSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True)
 
     class Meta:
@@ -21,10 +21,17 @@ class CustomerSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 
-class AdminSerializer(serializers.ModelSerializer):
+class CustomerSerializer(UserSerializer):
+    class Meta:
+        model = Customer
+        fields = ['id', 'username', 'email', 'password', 'confirm_password']
+
+
+class AdminSerializer(UserSerializer):
     class Meta:
         model = Admin
-        fields = ['id', 'username', 'email', 'password', 'created_at']
+        fields = ['id', 'username', 'email', 'password',
+                  'confirm_password', 'created_at']
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -38,3 +45,10 @@ class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
         fields = ['id', 'brand_name']
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'product_name', 'product_description',
+                  'price', 'updated_at', 'brand', 'is_featured']
