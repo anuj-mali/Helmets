@@ -1,6 +1,6 @@
 import React from 'react';
 import Logo from '../../Assets/White_logo.png';
-// import Loggedin from './Navigation Toggles/Loggedin';
+import Loggedin from './Navigation Toggles/Loggedin';
 import { Link } from 'react-router-dom';
 import { FiShoppingCart } from "react-icons/fi";
 
@@ -67,7 +67,7 @@ const Navbar = () => {
         </Link>
         
       {/* If Logged in */}
-      {/* <Loggedin/> */}
+      <Loggedin/>
     </div>
  </div>
   </div>

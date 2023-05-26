@@ -1,16 +1,14 @@
 import React from 'react';
 import image from '../../Assets/Products/agv/k6.jpg';
 import ProductCard from '../../Components/ProductCard/ProductCard';
-
+import { useProductContext } from '../../Context/ProductContext';
 
 const Shop = () => {
+  const {isLoading, products} =useProductContext();
+  console.log(products);
   return (
     <>
-    <div class='d-flex justify-content-between w-75 mx-auto'>
-        <ProductCard />
-        <ProductCard/>
-        <ProductCard/>
-    </div>
+    <p>Shopppp</p>
     </>
   )
 }
