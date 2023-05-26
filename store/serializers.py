@@ -35,20 +35,15 @@ class AdminSerializer(UserSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    brand_name = serializers.CharField(source='brand.brand_name')
+
     class Meta:
         model = Product
         fields = ['id', 'product_name', 'product_description',
-                  'price', 'updated_at', 'brand', 'is_featured']
+                  'price', 'updated_at', 'brand_name', 'is_featured']
 
 
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
         fields = ['id', 'brand_name']
-
-
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = ['id', 'product_name', 'product_description',
-                  'price', 'updated_at', 'brand', 'is_featured']
