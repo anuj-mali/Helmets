@@ -1,16 +1,19 @@
+import os
 from pathlib import Path
+from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_m#$oi@y$9!i$@$c#!unuhc&cqqwp+%s^wk4sr4fobr0sqbb30'
+SECRET_KEY = 'django-insecure-^y!-c+%m)r@#-^d87tc^n)9_fklq@i4wc&m2+uh3(6_bb=tk*w'
 
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['0.0.0.0', '192.168.120.232']
 ALLOWED_HOSTS = []
 
+
+# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -19,15 +22,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
-    'corsheaders',
+    'django_filters',
     'rest_framework',
-    'khalti',
-    'store'
+    'debug_toolbar',
+    'djoser',
+    'core',
+    'store',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -35,10 +39,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
-ROOT_URLCONF = 'Helmets.urls'
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
+
+ROOT_URLCONF = 'helmets.urls'
 
 TEMPLATES = [
     {
@@ -56,24 +65,25 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Helmets.wsgi.application'
+WSGI_APPLICATION = 'helmets.wsgi.application'
 
+
+# Database
+# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'helmets',
         'HOST': '127.0.0.1',
-        'USER': 'anujm',
-        'PASSWORD': 'Qwerty'
+        'USER': 'root',
+        'PASSWORD': ''
     }
 }
 
-INTERNAL_IPS = [
-    # ...
-    "127.0.0.1",
-    # ...
-]
+
+# Password validation
+# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -90,6 +100,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization
+# https://docs.djangoproject.com/en/4.2/topics/i18n/
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -99,14 +112,38 @@ USE_I18N = True
 USE_TZ = True
 
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.2/howto/static-files/
+
 STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+REST_FRAMEWORK = {
+    'COERCE_DECIMAL_TO_STRING': False,
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
-# ANCHOR: Khalti Settings
-KHALTI_SECRET_KEY = "test_secret_key_71c5d8c92ab942c99a04c6e56d5827b3"
-KHALTI_VERIFY_URL = "https://khalti.com/api/v2/payment/verify/"
+AUTH_USER_MODEL = 'core.User'
 
-# ANCHOR: CORS Settings
-CORS_ORIGIN_ALLOW_ALL = True
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'core.serializers.UserCreateSerializer',
+        'current_user': 'core.serializers.UserSerializer',
+    }
+}
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+}

@@ -1,68 +1,81 @@
+from django.conf import settings
+
+from django.contrib import admin
+
 from django.db import models
 
-
-class User(models.Model):
-    username = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=50)
-    # profile_image = models.ImageField()
+from django.core.validators import MinValueValidator
 
 
-class Customer(User):
-    def __str__(self) -> str:
-        return self.username
+class Customer(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=200)
+    image = models.ImageField(
+        upload_to='store/customers')
 
+    def __str__(self):
+        return f'{self.user.first_name} {self.user.last_name}'
 
-class Admin(User):
-    created_at = models.DateField(auto_now_add=True)
+    @admin.display(ordering='user__first_name')
+    def first_name(self):
+        return self.user.first_name
 
-    def __str__(self) -> str:
-        return self.username
+    @admin.display(ordering='user__last_name')
+    def last_name(self):
+        return self.user.last_name
+
+    class Meta:
+        ordering = ['user__first_name', 'user__last_name']
 
 
 class Brand(models.Model):
-    brand_name = models.CharField(max_length=255)
-    # brand_logo = models.ImageField()
+    name = models.CharField(max_length=200, unique=True)
+    image = models.ImageField(
+        upload_to='store/brands',)
 
-    def __str__(self) -> str:
-        return self.brand_name
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
 
 
 class Product(models.Model):
-    product_name = models.CharField(max_length=255)
-    product_description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    updated_at = models.DateField(auto_now=True)
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-    is_featured = models.BooleanField(default=False)
-    # product_image = models.ImageField()
+    name = models.CharField(max_length=200, unique=True)
+    description = models.TextField()
+    unit_price = models.DecimalField(max_digits=8, decimal_places=2)
+    brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
+    image = models.ImageField(
+        upload_to='store/products')
 
     def __str__(self):
-        return self.product_name
+        return self.name
 
     class Meta:
-        ordering = ['product_name']
+        ordering = ['name']
 
 
 class Cart(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    created_at = models.DateField(auto_now_add=True)
+    customer = models.OneToOneField(
+        Customer, on_delete=models.CASCADE, related_name='carts')
 
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(
+        Cart, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveSmallIntegerField()
-    updated_at = models.DateField(auto_now=True)
+    quantity = models.PositiveIntegerField(
+        validators=[MinValueValidator(1)]
+    )
+
+    class Meta:
+        unique_together = [['cart', 'product']]
 
 
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
-    placed_at = models.DateTimeField(auto_now_add=True)
+    pass
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
-    quantity = models.PositiveSmallIntegerField()
-    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
+    pass
