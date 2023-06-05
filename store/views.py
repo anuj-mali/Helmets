@@ -7,9 +7,9 @@ from rest_framework.viewsets import GenericViewSet
 
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-from .permissions import IsAdminUserOrReadOnly
-from .serializers import CustomerSerializer, BrandSerializer, ProductSerializer, CartItemSerializer, UpdateCartItemSerializer, AddCartItemSerializer, GetProductSerializer, CartSerializer
-from .models import Customer, Brand, Product, CartItem, Cart, OrderItem
+from .permissions import IsAdminOrReadOnly
+from .serializers import CustomerSerializer, BrandSerializer, ProductSerializer, CartItemSerializer, UpdateCartItemSerializer, AddCartItemSerializer, GetProductSerializer, CartSerializer, OrderSerializer, OrderItemSerializer
+from .models import Customer, Brand, Product, CartItem, Cart, OrderItem, Order
 from .paginations import CustomPagination
 
 
@@ -38,7 +38,7 @@ class BrandViewSet(ModelViewSet):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
     pagination_class = CustomPagination
-    permission_classes = [IsAdminUserOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
 
     def destroy(self, request, *args, **kwargs):
         if Product.objects.filter(brand_id=self.kwargs['pk']):
@@ -49,7 +49,7 @@ class BrandViewSet(ModelViewSet):
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     pagination_class = CustomPagination
-    permission_classes = [IsAdminUserOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
 
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['name', 'brand__name']
@@ -95,3 +95,20 @@ class CartItemViewSet(ModelViewSet):
 
     def get_serializer_context(self):
         return {'cart_id': self.kwargs['cart_pk']}
+
+
+class OrderItemViewSet(ModelViewSet):
+    queryset = OrderItem.objects.all()
+    serializer_class = OrderItemSerializer
+    permission_classes = [IsAdminOrReadOnly]
+
+
+class OrderViewSet(ModelViewSet):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAdminOrReadOnly]
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Order.objects.all()
+        customer = Customer.objects.get(user_id=self.request.user.id)
+        return Order.objects.filter(customer_id=customer.id)

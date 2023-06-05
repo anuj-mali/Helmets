@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'djoser',
     'core',
     'store',
+    'khalti'
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,7 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+
+KHALTI_SECRET_KEY = "test_secret_key_a14cbe80062142da835130f8d5cef4fc"
+KHALTI_VERIFY_URL = "https://khalti.com/api/v2/payment/verify/"

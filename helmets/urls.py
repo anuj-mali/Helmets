@@ -15,6 +15,7 @@ urlpatterns = [
     path('store/', include('store.urls')),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
+    path('khalti/', include('khalti.urls')),
 ]
 
 if settings.DEBUG:
