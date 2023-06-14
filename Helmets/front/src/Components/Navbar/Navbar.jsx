@@ -3,9 +3,13 @@ import Logo from '../../Assets/White_logo.png';
 import Loggedin from './Navigation Toggles/Loggedin';
 import { Link } from 'react-router-dom';
 import { FiShoppingCart } from "react-icons/fi";
+import { useCartContext } from '../../Context/CartContext';
 
 
 const Navbar = () => {
+  const { cart } = useCartContext();
+  console.log(cart.length);
+  
 
 
   return (
@@ -57,9 +61,9 @@ const Navbar = () => {
         <i class="fa-solid fa-magnifying-glass"></i>
       </a>
 
-        <Link to={"/shop"} className="text-reset me-4 cart-trolley--link navbar-link">
+        <Link to={"/cart"} className="text-reset me-4 cart-trolley--link navbar-link">
         <FiShoppingCart className='cart-trolley'/>
-        <span className='cart-total--item'>0</span>
+        <span className='cart-total--item'>{cart.length}</span>
       </Link>
       <Link to={"/login"} class="text-reset me-4">
       

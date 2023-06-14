@@ -1,22 +1,25 @@
 import React from 'react';
-import image from '../../Assets/Products/agv/k6.jpg';
-import ProductCard from '../../Components/ProductCard/ProductCard';
+//import image from '../../Assets/Products/agv/k6.jpg';
+//import ProductCard from '../../Components/ProductCard/ProductCard';
 import { useProductContext } from '../../Context/ProductContext';
 import styled from 'styled-components';
-import About from '../../Pages/About/About'
+import Filters from '../../Components/Filters/Filters';
 import Product_card from '../../Components/Product_card/Product_card';
+import { useFilterContext } from '../../Context/FilterContext';
 const Shop = () => {
-  const {isLoading, products} =useProductContext();
-  console.log(products);
+  const {filtered_products} =useFilterContext();
+  console.log(filtered_products);
   return (
     <>
     <Wrapper className='section'>
       <div className="container">
         <div className="grid grid-two-column">
-          <About/>
+          <div>
+          <Filters/>
+          </div>
           <div className="grid grid-four-column">
                     {
-                        products.map((current)=>{
+                        filtered_products.map((current)=>{
                             return <Product_card key={current.id} {...current}/>
                         })
                 
@@ -42,15 +45,15 @@ const Wrapper = styled.section`
 
   }
   .grid-two-column {
-    grid-template-columns: 0.4fr 1fr;
-    gap: 3rem;
+    grid-template-columns: 0.3fr 1fr;
+    gap: 2rem;
 
   }
 
   .grid-four-column {
-    width: 100%;
+    
     grid-template-columns: repeat(4, 1fr);
-    gap: 5rem;
+    gap: 3rem;
   }
 
 
@@ -82,7 +85,7 @@ const Wrapper = styled.section`
     img {
       max-width: 90%;
       margin-top: 1.5rem;
-      height: 20rem;
+      height: 10rem;
       transition: all 0.2s linear;
     }
             
@@ -93,8 +96,8 @@ const Wrapper = styled.section`
       text-transform: uppercase;
       background-color: ${({ theme }) => theme.colors.bg};
       color: ${({ theme }) => theme.colors.helper};
-      padding: 0.8rem 2rem;
-      font-size: 1.2rem;
+      padding: 0.4rem 1.2rem;
+      font-size: 1rem;
       border-radius: 2rem;
     }
   }
@@ -102,13 +105,15 @@ const Wrapper = styled.section`
   .card {
     background-color: #fff;
     border-radius: 1rem;
+    
+    width: 100%;
 
     .card-data {
       padding: 0 2rem;
     }
 
     .card-data-flex {
-      margin: 2rem 0;
+      margin: 1rem 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -117,6 +122,7 @@ const Wrapper = styled.section`
     h3 {
       color: ${({ theme }) => theme.colors.text};
       text-transform: capitalize;
+      font-size: 1.4rem;
     }
 
     .card-data--price {

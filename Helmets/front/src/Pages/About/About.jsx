@@ -4,7 +4,7 @@ import {useProductContext} from "../../Context/ProductContext";
 const About = () => {
   const {singleProduct ,getSingleProduct} =useProductContext();
   React.useEffect(()=>{
-    getSingleProduct("/products/2");
+    getSingleProduct("/2");
   },[])
   console.log(singleProduct);
   

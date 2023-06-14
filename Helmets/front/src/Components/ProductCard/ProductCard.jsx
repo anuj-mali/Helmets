@@ -1,7 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import About from '../../Pages/About/About'
-import Home from '../../Pages/Home/Home'
 
 const ProductCard = () => {
   return (

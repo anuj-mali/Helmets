@@ -4,9 +4,9 @@ import reducer from "../reducer/productReducer"
 
 const AppContext = createContext();
 
-const API ="/products/";
+// const API ="/products/";
 const Api= axios.create({
-    baseURL:"http://127.0.0.1:8000/store/",
+    baseURL:"http://127.0.0.1:8000/store/products/",
     withCredentials: false,
     headers:{
         "Content-Type":"application/json",
@@ -21,7 +21,7 @@ const initialState ={
     featuredProducts:[],
     isSingleLoading:false,
     isSingleError:false,
-    singleProduct:{},
+    singleProduct:JSON.parse(localStorage.getItem("singleProduct")) || {},
 };
 const AppProvider =({children})=>{
 
@@ -33,8 +33,10 @@ const AppProvider =({children})=>{
         try{
             const res = await Api.get(url);
             const singleProduct = await res.data;
+            console.log("GET Single product",singleProduct);
             dispatch({type:"SET_SINGLE_PRODUCT", payload:singleProduct});
         }catch(error){
+            console.log("GET Single product error",error);
             dispatch({type:"SET_SINGLE_ERROR"});
         }
     }
@@ -53,8 +55,12 @@ const AppProvider =({children})=>{
     };
 
     useEffect(()=>{
-        getProducts(API);
+        getProducts("/");
+
     },[]);
+    useEffect(()=>{
+        localStorage.setItem("singleProduct", JSON.stringify(state.singleProduct));
+    },[state.singleProduct]);
 
     return <AppContext.Provider value={{ ...state, getSingleProduct }}>{children}</AppContext.Provider>
 };

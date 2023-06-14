@@ -17,6 +17,8 @@ import Footer from './Components/Footer/Footer';
 import Product from './Pages/Product/Product';
 import {GlobalStyle} from './GlobalStyle';
 import { ThemeProvider } from 'styled-components';
+import Cart from './Pages/Cart/Cart';
+import CheckOut from './Pages/CheckOut/CheckOut';
 
 
 function App() {
@@ -40,6 +42,9 @@ const theme={
         <Route path="/Contact" element={<Contact/>}/>
         <Route path="/About" element={<About/>}/>
         <Route path="/Product/:id" element={<Product/>}/>
+        <Route path="/Cart" element={<Cart/>}/>
+        <Route path="/Checkout" element={<CheckOut/>}/>
+        <Route path="*" element={<h1>Not Found</h1>}/>
       </Routes>
       <Footer/>
     </Router>
